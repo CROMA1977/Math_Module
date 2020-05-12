@@ -5,12 +5,6 @@
 #include "CVector.h"
 #include "CVectorReference.h"
 
-// 預設的建構式
-CVector2FLOAT::CVector2FLOAT() :
-m_x(0.0f), m_y(0.0f)
-{
-}
-
 // 建構式
 CVector2FLOAT::CVector2FLOAT(float Value0, float Value1) :
 m_x(Value0), m_y(Value1)

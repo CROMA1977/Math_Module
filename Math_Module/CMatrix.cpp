@@ -1517,7 +1517,7 @@ CMatrix4FLOAT& CMatrix4FLOAT::LookAt(const CVectorReference3FLOAT & EyePos, cons
 	return *this;
 }
 // 設定為 Lookat 攝影機矩陣
-CMatrix4FLOAT& CMatrix4FLOAT::LookAt(const CVector3FLOAT& EyePos, const CVector3FLOAT& LookPoint, const CVector3FLOAT& Up) {
+CMatrix4FLOAT & CMatrix4FLOAT::LookAt(const CVector3FLOAT & EyePos, const CVector3FLOAT & LookPoint, const CVector3FLOAT& Up) {
 	// 以 EyePos 為中心求正交的三軸 F = -Z 軸 U = Y 軸 R = X 軸
 	CVector3FLOAT F = (LookPoint - EyePos).GetNormalize();
 	CVector3FLOAT U = Up.GetNormalize();
@@ -1531,8 +1531,8 @@ CMatrix4FLOAT& CMatrix4FLOAT::LookAt(const CVector3FLOAT& EyePos, const CVector3
 	//
 	// LookAt = Ml * Mt;
 
-	_M00 = R.m_x;	_M01 = R.m_y;	_M02 = R.m_z;	_M03 = R.m_x * -EyePos.m_x + R.m_y * -EyePos.m_y + R.m_z * -EyePos.m_z;
-	_M10 = U.m_x;	_M11 = U.m_y;	_M12 = U.m_z;	_M13 = U.m_x * -EyePos.m_x + U.m_y * -EyePos.m_y + U.m_z * -EyePos.m_z;
+	_M00 =  R.m_x;	_M01 =  R.m_y;	_M02 =  R.m_z;	_M03 =  R.m_x * -EyePos.m_x +  R.m_y * -EyePos.m_y +  R.m_z * -EyePos.m_z;
+	_M10 =  U.m_x;	_M11 =  U.m_y;	_M12 =  U.m_z;	_M13 =  U.m_x * -EyePos.m_x +  U.m_y * -EyePos.m_y +  U.m_z * -EyePos.m_z;
 	_M20 = -F.m_x;	_M21 = -F.m_y;	_M22 = -F.m_z;	_M23 = -F.m_x * -EyePos.m_x + -F.m_y * -EyePos.m_y + -F.m_z * -EyePos.m_z;
 	_M30 = 0.0f;	_M31 = 0.0f;	_M32 = 0.0f;	_M33 = 1.0f;
 

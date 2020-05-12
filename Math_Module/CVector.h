@@ -22,10 +22,8 @@ public:
 		struct { float					m_x, m_y;		};									///< 空間座標
 		struct { float					m_s, m_t;		};									///< 材質座標
 	};
-										/// 預設的建構式
-										CVector2FLOAT();
 										/// 建構式
-										CVector2FLOAT( float Value0, float Value1 );
+										CVector2FLOAT( float Value0 = 0.0f, float Value1 = 0.0f);
 										/// 建構式 Array[2] = {m_x, m_y}
 										CVector2FLOAT( float * Array );
 										/// 建構式 Array[2] = {m_x, m_y}
@@ -110,7 +108,7 @@ public:
 			struct { float				 m_r, m_g, m_b;		};				///< 在顏色座標時使用的名稱
 	};
 										/// 建構式
-										CVector3FLOAT( float Value0, float Value1, float Value2 );
+										CVector3FLOAT( float Value0 = 0.0f, float Value1 = 0.0f, float Value2 = 0.0f);
 										/// 建構式 Array[3] = {m_x, m_y, m_z};
 										CVector3FLOAT( float * Array );
 										/// 建構式 Array[3] = {m_x, m_y, m_z};
@@ -201,7 +199,7 @@ public:
 	};
 
 										/// 建構式
-										CVector4FLOAT( float Value0, float Value1, float Value2, float Value3 );
+										CVector4FLOAT( float Value0 = 0.0f, float Value1 = 0.0f, float Value2 = 0.0f, float Value3 = 0.0f );
 										/// 建構式 Array[4] = {m_x, m_y, m_z, m_w};
 										CVector4FLOAT( float * Array );
 										/// 建構式 Array[4] = {m_x, m_y, m_z, m_w};

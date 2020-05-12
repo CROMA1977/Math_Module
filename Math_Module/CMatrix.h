@@ -339,7 +339,7 @@ public:
 										/// 設定為 Lookat 攝影機矩陣
 			CMatrix4FLOAT			&	LookAt( const CVectorReference3FLOAT & EyePos, const CVectorReference3FLOAT & LookPoint, const CVectorReference3FLOAT & Up );
 										/// 設定為 Lookat 攝影機矩陣
-			CMatrix4FLOAT			&	LookAt(const CVector3FLOAT& EyePos, const CVector3FLOAT& LookPoint, const CVector3FLOAT& Up);
+			CMatrix4FLOAT			&	LookAt(const CVector3FLOAT & EyePos, const CVector3FLOAT & LookPoint, const CVector3FLOAT& Up);
 
 										/// 載入單位矩陣
 			CMatrix4FLOAT			&	LoadIdentity( void );
@@ -403,3 +403,7 @@ protected:
 										///  矩陣與實數做除法並且保存數值 M = M / Value
 			void						DivAssign( const float Value );
 };
+
+typedef  CMatrix2FLOAT				CMatrix2f;
+typedef  CMatrix3FLOAT				CMatrix3f;
+typedef  CMatrix4FLOAT				CMatrix4f;
