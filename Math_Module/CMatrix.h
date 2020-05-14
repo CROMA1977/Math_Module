@@ -282,6 +282,9 @@ public:
 													   float  OffsetX,	float  OffsetY,	float  OffsetZ );
 										/// 以 四元數 Q0, Qx, Qy, Qz Position 來初始化矩陣
 										CMatrix4FLOAT( float  Q0, float  Qx, float  Qy, float  Qz, const CVectorReference3FLOAT & Position );
+										/// 以 四元數 Q0, Qx, Qy, Qz Position 來初始化矩陣
+										CMatrix4FLOAT(float  Q0, float  Qx, float  Qy, float  Qz, const CVector3FLOAT& Position);
+
 										/// 對 4x4 矩陣的拷貝建構式
 										CMatrix4FLOAT( const CMatrix4FLOAT & Matrix );		
 										/// 解構式
@@ -303,13 +306,15 @@ public:
 			CVectorReference3FLOAT		GetAxisVector(const int Index);
 										/// 取得矩陣的姿態
 			void						GetParameter( CVectorReference3FLOAT & Position, float & Rx, float & Ry, float & Rz );
+										/// 取得矩陣的姿態
+			void						GetParameter(CVector3FLOAT & Position, float& Rx, float& Ry, float& Rz);
 			//////////////////////////////////////////////////////////////////////////
 										/// 以陣列指定初值 Array[16] = { _M00, _M10, _M20, _M30, _M01, _M11, _M21, _M31, _M02, _M12, _M22, _M32, _M03, _M13, _M23, _M33 };
 			CMatrix4FLOAT			&	SetMatrix( const float * Array );
 										/// 以 四元數 Q0, Qx, Qy, Qz Position 初始化矩陣
 			CMatrix4FLOAT			&	SetMatrix( const float Q0, const float Qx, const float Qy, const float Qz, const CVectorReference3FLOAT & Position );
 										/// 以 四元數 Q0, Qx, Qy, Qz Position 初始化矩陣
-			CMatrix4FLOAT			&	SetMatrix( const float Q0, const float Qx, const float Qy, const float Qz, const CVector3FLOAT& Position);
+			CMatrix4FLOAT			&	SetMatrix( const float Q0, const float Qx, const float Qy, const float Qz, const CVector3FLOAT & Position);
 										/// 設定平移矩陣 M = T3
 			CMatrix4FLOAT			&	SetTranslate( const float x, const float y, const float z );
 										/// 設定平移矩陣 M = T3
@@ -358,8 +363,12 @@ public:
 			CMatrix4FLOAT				operator*( const CMatrix4FLOAT & Matrix ) const;
 										/// 矩陣與向量的乘法 [m_x, m_y, m_z, 1] = M * [m_x, m_y, m_z, 1]
 			CVector3FLOAT				operator*( const CVectorReference3FLOAT & Vector) const;
+										/// 矩陣與向量的乘法 [m_x, m_y, m_z, 1] = M * [m_x, m_y, m_z, 1]
+			CVector3FLOAT				operator*(const CVector3FLOAT& Vector) const;
 										/// 矩陣與向量的乘法 V = M * Vi
 			CVector4FLOAT				operator*( const CVectorReference4FLOAT & Vector) const;
+										/// 矩陣與向量的乘法 V = M * Vi
+			CVector4FLOAT				operator*(const CVector4FLOAT & Vector) const;
 
 										/// 覆載 / 法對實數的運算子 Mo = M / Value
 			CMatrix4FLOAT				operator/( const float Value ) const;
@@ -386,8 +395,13 @@ protected:
 			CMatrix4FLOAT				Mul( const CMatrix4FLOAT & Matrix ) const;
 										/// 矩陣與向量的乘法 [m_x, m_y, m_z, 1] = M * [m_x, m_y, m_z, 1]
 			CVector3FLOAT				Mul( const CVectorReference3FLOAT & Vector) const;
+										/// 矩陣與向量的乘法 [m_x, m_y, m_z, 1] = M * [m_x, m_y, m_z, 1]
+			CVector3FLOAT				Mul(const CVector3FLOAT & Vector) const;
 										/// 矩陣與向量的乘法 V = M * Vi
 			CVector4FLOAT				Mul( const CVectorReference4FLOAT & Vector) const;
+										/// 矩陣與向量的乘法 V = M * Vi
+			CVector4FLOAT				Mul(const CVector4FLOAT& Vector) const;
+
 										///  矩陣與實數做除法 Mo = M / Value
 			CMatrix4FLOAT				Div( const float Value ) const;
 										/// 使兩矩陣相等 M = Mi

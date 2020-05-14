@@ -994,6 +994,28 @@ CMatrix4FLOAT::CMatrix4FLOAT( const float Q0, const float Qx, const float Qy, co
 	_M32 = 0.0f;
 	_M33 = 1.0f;
 }
+// 以 四元數 Q0, Qx, Qy, Qz Position 來初始化矩陣
+CMatrix4FLOAT::CMatrix4FLOAT(float Q0, float Qx, float Qy, float Qz, const CVector3FLOAT & Position) {
+	_M00 = (Q0 * Q0) + (Qx * Qx) - (Qy * Qy) - (Qz * Qz);
+	_M01 = 2 * ((Qx * Qy) - (Q0 * Qz));
+	_M02 = 2 * ((Qx * Qz) + (Q0 * Qy));
+	_M03 = Position.m_x;
+
+	_M10 = 2 * ((Qx * Qy) + (Q0 * Qz));
+	_M11 = (Q0 * Q0) - (Qx * Qx) + (Qy * Qy) - (Qz * Qz);
+	_M12 = 2 * ((Qy * Qz) - (Q0 * Qx));
+	_M13 = Position.m_y;
+
+	_M20 = 2 * ((Qx * Qz) - (Q0 * Qy));
+	_M21 = 2 * ((Qy * Qz) + (Q0 * Qx));
+	_M22 = (Q0 * Q0) - (Qx * Qx) - (Qy * Qy) + (Qz * Qz);
+	_M23 = Position.m_z;
+
+	_M30 = 0.0f;
+	_M31 = 0.0f;
+	_M32 = 0.0f;
+	_M33 = 1.0f;
+}
 
 // 對 4x4 矩陣的拷貝建構式
 CMatrix4FLOAT::CMatrix4FLOAT(const CMatrix4FLOAT& Matrix) {
@@ -1204,6 +1226,30 @@ void CMatrix4FLOAT::GetParameter( CVectorReference3FLOAT & Position, float & Rx,
 		Rz = atan2f(TRy, TRx) * (180.0f * 3.1415926f);
 	}
 }
+// 取得矩陣的姿態
+void CMatrix4FLOAT::GetParameter(CVector3FLOAT & Position, float & Rx, float & Ry, float & Rz) {
+	Position.Set(_M03, _M13, _M23);
+
+	float GimballLock, TRx, TRy;
+	Ry = -asinf(_M02);
+	GimballLock = cosf(Ry);
+	Ry *= (180.0f / 3.1415926f);
+
+	if (fabs(GimballLock) > 0.005) {
+		TRx = _M22 / GimballLock;
+		TRy = -_M12 / GimballLock;
+		Rx = atan2f(TRy, TRx) * 180.0f / 3.1415926f;
+		TRx = _M00 / GimballLock;
+		TRy = -_M01 / GimballLock;
+		Rz = atan2f(TRy, TRx) * 180.0f / 3.1415926f;
+	}
+	else {
+		Rx = 0;
+		TRx = _M11;
+		TRy = _M10;
+		Rz = atan2f(TRy, TRx) * (180.0f * 3.1415926f);
+	}
+}
 
 // 以陣列指定初值 Array[16] = { _M00, _M10, _M20, _M30, _M01, _M11, _M21, _M31, _M02, _M12, _M22, _M32, _M03, _M13, _M23, _M33 };
 CMatrix4FLOAT & CMatrix4FLOAT::SetMatrix(const float * Array) {
@@ -1260,7 +1306,7 @@ CMatrix4FLOAT & CMatrix4FLOAT::SetMatrix(const float Q0, const float Qx, const f
 	return *this;
 }
 // 以 四元數 Q0, Qx, Qy, Qz Position 初始化矩陣
-CMatrix4FLOAT& CMatrix4FLOAT::SetMatrix(const float Q0, const float Qx, const float Qy, const float Qz, const CVector3FLOAT& Position)
+CMatrix4FLOAT& CMatrix4FLOAT::SetMatrix(const float Q0, const float Qx, const float Qy, const float Qz, const CVector3FLOAT & Position)
 {
 	_M00 = (Q0 * Q0) + (Qx * Qx) - (Qy * Qy) - (Qz * Qz);
 	_M01 = 2 * ((Qx * Qy) - (Q0 * Qz));
@@ -1673,9 +1719,17 @@ CMatrix4FLOAT CMatrix4FLOAT::operator*(const CMatrix4FLOAT & Matrix) const {
 CVector3FLOAT CMatrix4FLOAT::operator*(const CVectorReference3FLOAT & Vector) const {
 	return Mul(Vector);
 }
+// 矩陣與向量的乘法 [m_x, m_y, m_z, 1] = M * [m_x, m_y, m_z, 1]
+CVector3FLOAT CMatrix4FLOAT::operator*(const CVector3FLOAT & Vector) const {
+	return Mul(Vector);
+}
 
 // 矩陣與向量的乘法 V = M * Vi
 CVector4FLOAT CMatrix4FLOAT::operator*(const CVectorReference4FLOAT & Vector) const {
+	return Mul(Vector);
+}
+// 矩陣與向量的乘法 V = M * Vi
+CVector4FLOAT CMatrix4FLOAT::operator*(const CVector4FLOAT & Vector) const {
 	return Mul(Vector);
 }
 
@@ -1778,6 +1832,19 @@ CVector3FLOAT CMatrix4FLOAT::Mul(const CVectorReference3FLOAT & Vector) const {
 							(_M10 * Vector.m_x + _M11 * Vector.m_y + _M12 * Vector.m_z + _M13) * aw,
 							(_M20 * Vector.m_x + _M21 * Vector.m_y + _M22 * Vector.m_z + _M23) * aw);
 }
+// 矩陣與向量的乘法 [m_x, m_y, m_z, 1] = M * [m_x, m_y, m_z, 1]
+CVector3FLOAT CMatrix4FLOAT::Mul(const CVector3FLOAT& Vector) const {
+	float w = _M30 * Vector.m_x + _M31 * Vector.m_y + _M32 * Vector.m_z + _M33;
+	if (w == 0) {
+		fprintf(stderr, "\n error:Matrix4f Mul Vec3f w == 0!.");
+		w = 1;
+	}
+	float aw = 1.0f / w;
+
+	return CVector3FLOAT((_M00 * Vector.m_x + _M01 * Vector.m_y + _M02 * Vector.m_z + _M03) * aw,
+		(_M10 * Vector.m_x + _M11 * Vector.m_y + _M12 * Vector.m_z + _M13) * aw,
+		(_M20 * Vector.m_x + _M21 * Vector.m_y + _M22 * Vector.m_z + _M23) * aw);
+}
 
 // 矩陣與向量的乘法 V = M * Vi
 CVector4FLOAT CMatrix4FLOAT::Mul(const CVectorReference4FLOAT & Vector) const {
@@ -1786,6 +1853,13 @@ CVector4FLOAT CMatrix4FLOAT::Mul(const CVectorReference4FLOAT & Vector) const {
 							_M20 * Vector.m_x + _M21 * Vector.m_y + _M22 * Vector.m_z + _M23 * Vector.m_w,
 							_M30 * Vector.m_x + _M31 * Vector.m_y + _M32 * Vector.m_z + _M33 * Vector.m_w);
 
+}
+// 矩陣與向量的乘法 V = M * Vi
+CVector4FLOAT CMatrix4FLOAT::Mul(const CVector4FLOAT & Vector) const {
+	return CVector4FLOAT(	_M00 * Vector.m_x + _M01 * Vector.m_y + _M02 * Vector.m_z + _M03 * Vector.m_w,
+							_M10 * Vector.m_x + _M11 * Vector.m_y + _M12 * Vector.m_z + _M13 * Vector.m_w,
+							_M20 * Vector.m_x + _M21 * Vector.m_y + _M22 * Vector.m_z + _M23 * Vector.m_w,
+							_M30 * Vector.m_x + _M31 * Vector.m_y + _M32 * Vector.m_z + _M33 * Vector.m_w);
 }
 
 //  矩陣與實數做除法 Mo = M / Value
