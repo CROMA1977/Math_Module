@@ -1527,6 +1527,18 @@ CMatrix4FLOAT & CMatrix4FLOAT::Frustum(float Left, float Right, float Bottom, fl
 	return *this;
 }
 
+// 設定為 Viewport 轉換矩陣
+CMatrix4FLOAT& CMatrix4FLOAT::Viewport(int X, int Y, int Width, int Height)
+{
+
+	_M00 = Width / 2.0f;	_M01 = 0.0f;			_M02 = 0.0f;	_M03 = (Width  + X * 2.0f) / 2.0f;
+	_M10 = 0.0f;			_M11 = Height / 2.0f;	_M12 = 0.0f;	_M13 = (Height + Y * 2.0f) / 2.0f;
+	_M20 = 0.0f;			_M21 = 0.0f;			_M22 = 1.0f;	_M23 = 0.0f;
+	_M30 = 0.0f;			_M31 = 0.0f;			_M32 = 0.0f;	_M33 = 1.0f;
+
+	return *this;
+}
+
 // 設定為 OpenCV Camera Parameter Width, Height, Array[9]
 CMatrix4FLOAT & CMatrix4FLOAT::CvCameraParameter(const float Width, const float Height, const float * Array) {
 	float Near = 1.0f;

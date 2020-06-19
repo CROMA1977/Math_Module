@@ -339,6 +339,8 @@ public:
 			CMatrix4FLOAT			&	Perspective( const float Fovy, const float Aspect, const float zNear, const float zFar );
 										/// 設定為 Frustum 投射矩陣 M = Mf
 			CMatrix4FLOAT			&	Frustum( const float Left, const float Right, const float Bottom, const float Top, const float Near, const float Far );
+										/// 設定為 Viewport 轉換矩陣
+			CMatrix4FLOAT			&	Viewport(int x, int y, int width, int height);
 										/// 設定為 OpenCV Camera Parameter Width, Height, Array[9]
 			CMatrix4FLOAT			&   CvCameraParameter( const float Width, const float Height, const float * Array);
 										/// 設定為 Lookat 攝影機矩陣

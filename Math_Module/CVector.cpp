@@ -270,8 +270,18 @@ m_x(Array[0]), m_y(Array[1]), m_z(Array[2])
 {
 
 }
-
-CVector3FLOAT::CVector3FLOAT(const CVectorReference3FLOAT& Vector):
+// 建構式 Array[3] = {m_x, m_y, m_z};
+CVector3FLOAT::CVector3FLOAT(const CVectorReference2FLOAT & Vector, float Value2) :
+m_x(Vector.m_x), m_y(Vector.m_y), m_z(Value2)
+{
+}
+// 建構式 Array[3] = {m_x, m_y, m_z};
+CVector3FLOAT::CVector3FLOAT(const CVector2FLOAT & Vector, float Value2) :
+m_x(Vector.m_x), m_y(Vector.m_y), m_z(Value2)
+{
+}
+// 建構式 Array[3] = {m_x, m_y, m_z};
+CVector3FLOAT::CVector3FLOAT(const CVectorReference3FLOAT & Vector):
 m_x(Vector.m_x), m_y(Vector.m_y), m_z(Vector.m_z)
 {
 }
@@ -512,8 +522,18 @@ CVector4FLOAT::CVector4FLOAT(float * Array) :
 m_x(Array[0]), m_y(Array[1]), m_z(Array[2]), m_w(Array[3])
 {
 }
-
-CVector4FLOAT::CVector4FLOAT(const CVectorReference4FLOAT& Vector) :
+// 建構式 Array[4] = {m_x, m_y, m_z, m_w};
+CVector4FLOAT::CVector4FLOAT(const CVectorReference3FLOAT & Vector, float Value3) :
+m_x(Vector.m_x), m_y(Vector.m_y), m_z(Vector.m_z), m_w(Value3)
+{
+}
+// 建構式 Array[4] = {m_x, m_y, m_z, m_w};
+CVector4FLOAT::CVector4FLOAT(const CVector3FLOAT & Vector, float Value3) :
+m_x(Vector.m_x), m_y(Vector.m_y), m_z(Vector.m_z), m_w(Value3)
+{
+}
+// 建構式 Array[4] = {m_x, m_y, m_z, m_w};
+CVector4FLOAT::CVector4FLOAT(const CVectorReference4FLOAT & Vector) :
 m_x(Vector.m_x), m_y(Vector.m_y), m_z(Vector.m_z), m_w(Vector.m_w)
 {
 }

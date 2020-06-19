@@ -112,6 +112,10 @@ public:
 										/// 建構式 Array[3] = {m_x, m_y, m_z};
 										CVector3FLOAT( float * Array );
 										/// 建構式 Array[3] = {m_x, m_y, m_z};
+										CVector3FLOAT(const CVectorReference2FLOAT & Vector, float Value2 = 1.0f);
+										/// 建構式 Array[3] = {m_x, m_y, m_z};
+										CVector3FLOAT(const CVector2FLOAT & Vector, float Value2 = 1.0f);
+										/// 建構式 Array[3] = {m_x, m_y, m_z};
 										CVector3FLOAT( const CVectorReference3FLOAT & Vector);
 										/// 拷貝建構式 										 
 										CVector3FLOAT( const CVector3FLOAT & Vector );
@@ -202,6 +206,10 @@ public:
 										CVector4FLOAT( float Value0 = 0.0f, float Value1 = 0.0f, float Value2 = 0.0f, float Value3 = 0.0f );
 										/// 建構式 Array[4] = {m_x, m_y, m_z, m_w};
 										CVector4FLOAT( float * Array );
+										/// 建構式 Array[4] = {m_x, m_y, m_z, m_w};
+										CVector4FLOAT(const CVectorReference3FLOAT & Vector, float Value3 = 1.0f);
+										/// 建構式 Array[4] = {m_x, m_y, m_z, m_w}						 
+										CVector4FLOAT(const CVector3FLOAT & Vector, float Value3 = 1.0f);
 										/// 建構式 Array[4] = {m_x, m_y, m_z, m_w};
 										CVector4FLOAT( const CVectorReference4FLOAT & Vector);
 										/// 拷貝建構式 								 
